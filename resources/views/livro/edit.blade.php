@@ -23,7 +23,7 @@
         {{Form::label('titulo', 'Título')}}
         {{Form::text('titulo',$livro->titulo,['class'=>'form-control','required','placeholder'=>'Título do Livro'])}}
         {{Form::label('descricao', 'Descrição')}}
-        {{Form::textarea('descricao',$livro->descricao,['class'=>'form-control','required','placeholder'=>'Descrição'])}}
+        {{Form::textarea('descricao',$livro->descricao,['class'=>'form-control','required','placeholder'=>'Descrição','rows'=>'8'])}}
         {{Form::label('autor', 'Autor')}}
         {{Form::text('autor',$livro->autor,['class'=>'form-control','required','placeholder'=>'Autor'])}}
         {{Form::label('editora', 'Editora')}}
@@ -32,7 +32,7 @@
         {{Form::number('ano',$livro->ano,['class'=>'form-control','required','placeholder'=>'Ano'])}}
         <br />
         {{Form::submit('Salvar',['class'=>'btn btn-success'])}}
-        <a href="{{url('home')}}" class="btn btn-secondary">Voltar</a>
+        <a href="{{url('/')}}" class="btn btn-secondary">Voltar</a>
     {{Form::close()}}
 @endsection
 

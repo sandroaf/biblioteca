@@ -18,7 +18,7 @@
         {{Form::label('titulo', 'Título')}}
         {{Form::text('titulo','',['class'=>'form-control','required','placeholder'=>'Título do Livro'])}}
         {{Form::label('descricao', 'Descrição')}}
-        {{Form::textarea('descricao','',['class'=>'form-control','required','placeholder'=>'Descrição'])}}
+        {{Form::textarea('descricao','',['class'=>'form-control','required','placeholder'=>'Descrição','rows'=>'8'])}}
         {{Form::label('autor', 'Autor')}}
         {{Form::text('autor','',['class'=>'form-control','required','placeholder'=>'Autor'])}}
         {{Form::label('editora', 'Editora')}}
