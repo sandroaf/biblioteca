@@ -34,6 +34,9 @@
         </div>
         <div class="card-footer">
             {{Form::open(['route' => ['contatos.destroy',$contato->id],'method' => 'DELETE'])}}
+            @if ($nomeimagem !== "./img/contatos/semfoto.webp")
+               {{Form::hidden('foto',$nomeimagem)}}
+            @endif
             <a href="{{url('contatos/'.$contato->id.'/edit')}}" class="btn btn-success">Alterar</a>
             {{Form::submit('Excluir',['class'=>'btn btn-danger','onclick'=>'return confirm("Confirma exclusão?")'])}}
             <a href="{{url('contatos/')}}" class="btn btn-secondary">Voltar</a>

@@ -15,7 +15,7 @@ class LivrosController extends Controller
      */
     public function index()
     {
-        $livros = Livro::all();
+        $livros = Livro::simplepaginate(5);
         return view('livro.index',array('livros' => $livros,'busca'=>null));
     }
 
@@ -25,7 +25,7 @@ class LivrosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function buscar(Request $request) {
-        $livros = livro::where('titulo','LIKE','%'.$request->input('busca').'%')->orwhere('descricao','LIKE','%'.$request->input('busca').'%')->orwhere('autor','LIKE','%'.$request->input('busca').'%')->orwhere('editora','LIKE','%'.$request->input('busca').'%')->get();
+        $livros = livro::where('titulo','LIKE','%'.$request->input('busca').'%')->orwhere('descricao','LIKE','%'.$request->input('busca').'%')->orwhere('autor','LIKE','%'.$request->input('busca').'%')->orwhere('editora','LIKE','%'.$request->input('busca').'%')->simplepaginate(5);
         return view('livro.index',array('livros' => $livros,'busca'=>$request->input('busca')));
     }
 
@@ -130,13 +130,16 @@ class LivrosController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+     * @param \Illuminate\Http\Request $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $livro = Livro::find($id);
+        if (isset($request->foto)) {
+           unlink($request->foto);
+        }
         $livro->delete();
         Session::flash('mensagem','Livro Excluído com Sucesso');
         return redirect(url('livros/'));

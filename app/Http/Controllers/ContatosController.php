@@ -15,7 +15,7 @@ class ContatosController extends Controller
      */
     public function index()
     {
-        $contatos = Contato::all();
+        $contatos = Contato::paginate(5);
         return view('contato.index',array('contatos' => $contatos,'busca'=>null));
     }
 
@@ -25,7 +25,7 @@ class ContatosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function buscar(Request $request) {
-        $contatos = Contato::where('nome','LIKE','%'.$request->input('busca').'%')->orwhere('email','LIKE','%'.$request->input('busca').'%')->get();
+        $contatos = Contato::where('nome','LIKE','%'.$request->input('busca').'%')->orwhere('email','LIKE','%'.$request->input('busca').'%')->paginate(5);
         return view('contato.index',array('contatos' => $contatos,'busca'=>$request->input('busca')));
     }
 
@@ -65,7 +65,8 @@ class ContatosController extends Controller
             if($request->hasFile('foto')){
                 $imagem = $request->file('foto');
                 $nomearquivo = md5($contato->id).".".$imagem->getClientOriginalExtension();
-                $request->file('foto')->move(public_path('.\img\contatos'),'nomearquivo');
+                //dd($imagem, $nomearquivo,$contato->id);
+                $request->file('foto')->move(public_path('.\img\contatos'),$nomearquivo);
             }
             return redirect('contatos');
         }
@@ -133,14 +134,18 @@ class ContatosController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $contato = Contato::find($id);
+        if (isset($request->foto)) {
+           unlink($request->foto);
+        }
         $contato->delete();
-        Session::flash('mensagem','Contato Excluído com Sucesso');
+        Session::flash('mensagem','Contato Excluído com Sucesso Foto:');
         return redirect(url('contatos/'));
     }
 }
