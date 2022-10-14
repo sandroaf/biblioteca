@@ -7,7 +7,7 @@
             if(file_exists("./img/contatos/".md5($contato->id).".jpg")) {
                 $nomeimagem = "./img/contatos/".md5($contato->id).".jpg";
             } elseif (file_exists("./img/contatos/".md5($contato->id).".png")) {
-                $nomeimagem = "./img/contatos/".md5($contato->id).".jpg";
+                $nomeimagem = "./img/contatos/".md5($contato->id).".png";
             } elseif (file_exists("./img/contatos/".md5($contato->id).".gif")) {
                 $nomeimagem =  "./img/contatos/".md5($contato->id).".gif";
             } elseif (file_exists("./img/contatos/".md5($contato->id).".webp")) {
@@ -20,7 +20,7 @@
             //echo $nomeimagem;
         @endphp
 
-        {{Html::image(asset($nomeimagem),'Foto de '.$contato->nome,["class"=>"card-img-top thumbnail"])}}
+        {{Html::image(asset($nomeimagem),'Foto de '.$contato->nome,["class"=>"img-thumbnail"])}}
 
         <div class="card-header">
             <h1>Contato - {{$contato->nome}}</h1>
