@@ -105,7 +105,6 @@ class ContatosController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $this->validate($request,[
             'nome' => 'required|min:3',
             'email' => 'required|e-mail|min:3',
@@ -113,7 +112,6 @@ class ContatosController extends Controller
             'cidade' => 'required',
             'estado' => 'required',
         ]);
-
         $contato = Contato::find($id);
         if($request->hasFile('foto')){
             $imagem = $request->file('foto');
