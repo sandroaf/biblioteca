@@ -74,12 +74,14 @@ class EmprestimosController extends Controller
      *
      * @param int $id
      * @param  \App\Models\Emprestimo  $emprestimo
+     * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
         $emprestimo = Emprestimo::find($id);
         return view('emprestimo.show',array('emprestimo' => $emprestimo,'busca'=>null));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -90,6 +92,25 @@ class EmprestimosController extends Controller
     public function edit(Emprestimo $emprestimo)
     {
         //
+    }
+
+/**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $id
+    *  @return \Illuminate\Http\Response
+     */
+    public function devolver(Request $request, $id)
+    {
+        $emprestimo = Emprestimo::find($id);
+        $emprestimo->datadevolucao = \Carbon\Carbon::now();
+        $emprestimo->save();
+
+        if($emprestimo->save()) {
+            Session::flash('mensagem','Empréstimo Devolvido');
+            return redirect('emprestimos');
+        }
     }
 
     /**

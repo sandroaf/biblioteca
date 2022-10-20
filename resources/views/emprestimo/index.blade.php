@@ -27,8 +27,15 @@
         </div>
     {{Form::close()}}
     <br />
-    <table class="table table-striped">
-        @foreach ($emprestimos as $emprestimo)
+    <table class="table table-striped table-hover">
+    <tr>
+        <th>Id</th>
+        <th>Contato</th>
+        <th>Livro</th>
+        <th>Data</th>
+        <th>Devolução</th>
+    </tr>
+    @foreach ($emprestimos as $emprestimo)
             <tr>
                 <td>
                     <a href="{{url('emprestimos/'.$emprestimo->id)}}">{{$emprestimo->id}}</a>
@@ -42,6 +49,7 @@
                 <td>
                     {{\Carbon\Carbon::create($emprestimo->datahora)->format('d/m/Y H:i:s')}}
                 </td>
+                <td>{!!$emprestimo->devolvido!!}</td>
             </tr>
         @endforeach
     </table>
