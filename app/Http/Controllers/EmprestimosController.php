@@ -6,6 +6,7 @@ use App\Models\Emprestimo;
 use App\Models\Contato;
 use App\Models\Livro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Session;
 
 class EmprestimosController extends Controller
@@ -27,7 +28,14 @@ class EmprestimosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function buscar(Request $request) {
-        $emprestimos = Emprestimo::with('contato')->with('livro')->where('contato_id','=',$request->input('busca'))->orwhere('livro_id','=',$request->input('busca'))->orwhere('obs','LIKE','%'.$request->input('busca').'%')->simplepaginate(5);
+        $emprestimos = Emprestimo::join('contatos','contatos.id','=','emprestimos.contato_id')
+                    ->join('livros','livros.id','=','emprestimos.livro_id')
+                    ->select('emprestimos.*','contatos.nome','livros.titulo')
+                    ->where('contato_id','=',$request->input('busca'))
+                    ->orwhere('livro_id','=',$request->input('busca'))
+                    ->orwhere('obs','LIKE','%'.$request->input('busca').'%')->orwhere('contatos.nome','LIKE','%'.$request->input('busca').'%')
+                    ->orwhere('livros.titulo','LIKE','%'.$request->input('busca').'%')
+                    ->simplepaginate(5);
         return view('emprestimo.index',array('emprestimos' => $emprestimos,'busca'=>$request->input('busca')));
     }
 
@@ -109,7 +117,7 @@ class EmprestimosController extends Controller
 
         if($emprestimo->save()) {
             Session::flash('mensagem','Empréstimo Devolvido');
-            return redirect('emprestimos');
+            return redirect()->back();
         }
     }
 

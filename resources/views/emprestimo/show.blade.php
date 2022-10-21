@@ -4,6 +4,11 @@
     <div class="card w-50">
         <div class="card-header">
             <h1>Empréstimo - {{$emprestimo->id}}</h1>
+            @if(Session::has('mensagem'))
+            <div class="alert alert-info">
+                {{Session::get('mensagem')}}
+            </div>
+        @endif
         </div>
         <div class="card-body">
             <div class="container-fluid">
@@ -12,9 +17,11 @@
                         <h3 class="card-title">ID: {{$emprestimo->id}}</h3>
                     </div>
                     <div class="col-4">
-                        {{Form::open(['route'=>['emprestimos.devolver',$emprestimo->id],'method'=>'PUT'])}}
-                        {{form::submit('Devolver',['class'=>'btn btn-success','onclick'=>'return confim("Confirma devolução?")'])}}
-                        {{Form::close()}}
+                        @if($emprestimo->datadevolucao == null)
+                            {{Form::open(['route'=>['emprestimos.devolver',$emprestimo->id],'method'=>'PUT'])}}
+                            {{form::submit('Devolver',['class'=>'btn btn-success','onclick'=>'return confim("Confirma devolução?")'])}}
+                            {{Form::close()}}
+                        @endif
                     </div>
                 </div>
             </div>

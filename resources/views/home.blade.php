@@ -9,5 +9,8 @@
         <li>
             Livros
         </li>
+        <li>
+            Empréstimos
+        </li>
     </ul>
 @endsection
