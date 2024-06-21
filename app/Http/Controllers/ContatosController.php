@@ -144,7 +144,7 @@ class ContatosController extends Controller
                 return redirect()->back();
             }
         } else {
-            return redurect('login');
+            return redirect('login');
         }
     }
 
